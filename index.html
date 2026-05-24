@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#5e5ce6" />
+  <title>CampusRecruit — Premium Campus Placements</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="mesh-bg">
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="brand">
+        <div class="siri-orb sm"></div>
+        CampusRecruit
+      </a>
+      <div>
+        <a href="login.html" class="btn btn-ghost">Sign in</a>
+        <a href="register.html" class="btn btn-primary" style="margin-left:0.5rem">Register</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-premium animate-in">
+      <div class="siri-orb"></div>
+      <h1>Your campus career,<br />beautifully coordinated</h1>
+      <p class="subtitle">
+        Apple-grade experience for internships & placements — 8+ companies,
+        17+ roles, full application forms, smart eligibility.
+      </p>
+      <div class="hero-actions">
+        <a href="login.html" class="btn btn-primary btn-lg">Launch app →</a>
+        <a href="#demo" class="btn btn-glass btn-lg">Try demo accounts</a>
+      </div>
+    </section>
+
+    <section class="demo-grid" id="demo">
+      <div class="demo-card-premium glass animate-in">
+        <span class="role-badge">Student</span>
+        <h3>Priya Sharma</h3>
+        <p>CSE · 8.2 CGPA · 3 active applications · Full internship form</p>
+        <p class="demo-creds" style="font-family:monospace;font-size:0.75rem;color:var(--ink-soft);margin-bottom:1rem">student@demo.com · demo123</p>
+        <button type="button" class="btn btn-primary btn-block" data-demo-login="student@demo.com">Enter Student Hub</button>
+      </div>
+      <div class="demo-card-premium glass animate-in" style="animation-delay:0.08s">
+        <span class="role-badge">Company</span>
+        <h3>Razorpay / Flipkart / MS…</h3>
+        <p>8 hiring partners · Post roles · Pipeline management</p>
+        <p class="demo-creds" style="font-family:monospace;font-size:0.75rem;color:var(--ink-soft);margin-bottom:1rem">hr@techcorp.demo · demo123</p>
+        <button type="button" class="btn btn-primary btn-block" data-demo-login="hr@techcorp.demo">Enter Company Portal</button>
+      </div>
+      <div class="demo-card-premium glass animate-in" style="animation-delay:0.16s">
+        <span class="role-badge">TPO Admin</span>
+        <h3>Dr. Rajesh Kumar</h3>
+        <p>Placement analytics · Highest package · Live drives</p>
+        <p class="demo-creds" style="font-family:monospace;font-size:0.75rem;color:var(--ink-soft);margin-bottom:1rem">tpo@college.demo · demo123</p>
+        <button type="button" class="btn btn-primary btn-block" data-demo-login="tpo@college.demo">Enter Command Center</button>
+      </div>
+    </section>
+
+    <section class="feature-grid container" style="padding-bottom:4rem">
+      <article class="feature-card glass">
+        <div class="feat-icon">◈</div>
+        <h3>6-step internship form</h3>
+        <p>Personal, academic, skills, preferences, documents, and review — like a real campus portal.</p>
+      </article>
+      <article class="feature-card glass">
+        <div class="feat-icon">✦</div>
+        <h3>Instant eligibility</h3>
+        <p>CGPA, backlogs, and branch rules validated before your application is accepted.</p>
+      </article>
+      <article class="feature-card glass">
+        <div class="feat-icon">◎</div>
+        <h3>Rich demo universe</h3>
+        <p>Amazon, Microsoft, Goldman Sachs, Swiggy, Infosys, and more — pre-loaded with applications.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    Runs 100% in your browser ·
+    <button type="button" id="reset-demo-btn">Reset & upgrade demo data</button>
+  </footer>
+
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+    seedDemoData();
+    redirectIfLoggedIn();
+
+    document.querySelectorAll("[data-demo-login]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        const result = quickLogin(btn.dataset.demoLogin);
+        if (result.error) {
+          showToast(result.error, "error");
+          return;
+        }
+        window.location.href = getDashboardPath(result.user.user_role);
+      });
+    });
+
+    document.getElementById("reset-demo-btn").addEventListener("click", function () {
+      if (confirm("Reset all data and load the premium demo catalog (17+ jobs, 8 companies)?")) {
+        resetDemoData();
+        showToast("Premium demo loaded!", "success");
+      }
+    });
+  </script>
+</body>
+</html>

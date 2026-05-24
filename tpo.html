@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TPO Command Center | CampusRecruit</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="dashboard-body">
+  <div class="dashboard">
+    <aside class="sidebar">
+      <div class="sidebar-panel glass">
+        <div class="sidebar-brand">
+          <div class="siri-orb sm"></div>
+          <div>
+            <strong>CampusRecruit</strong>
+            <small id="user-role-label">TPO Command</small>
+          </div>
+        </div>
+        <nav class="sidebar-nav">
+          <a href="tpo.html" data-page="overview">✦ Command Center</a>
+          <a href="#drives" data-page="drives">◈ All Drives</a>
+          <a href="#placements" data-page="placements">◎ Placements</a>
+        </nav>
+        <div class="sidebar-user">
+          <div class="user-chip">
+            <div class="user-avatar" id="user-initials">RK</div>
+            <div>
+              <strong id="user-name">—</strong>
+              <small id="user-email">—</small>
+            </div>
+          </div>
+          <button type="button" class="btn btn-ghost btn-block" id="logout-btn">Sign out</button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="dashboard-main">
+      <div class="dashboard-hero glass animate-in">
+        <h1>Placement Command Center</h1>
+        <p id="tpo-subtitle">Real-time analytics across all hiring partners</p>
+      </div>
+
+      <div class="dashboard-content">
+        <div class="stats-row" id="stats-grid"></div>
+
+        <section id="drives">
+          <div class="section-head">
+            <h2>Active recruitment drives</h2>
+            <p id="drives-meta">—</p>
+          </div>
+          <div id="drives-grid" class="cards-grid"></div>
+        </section>
+
+        <section id="placements" style="margin-top:3rem">
+          <div class="section-head">
+            <h2>Confirmed placements</h2>
+            <p>Students with selected status</p>
+          </div>
+          <div id="placements-list"></div>
+          <div id="placements-empty" class="empty-state glass hidden">
+            <div class="empty-icon">◎</div>
+            <h3>No placements yet</h3>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/tpo.js"></script>
+</body>
+</html>

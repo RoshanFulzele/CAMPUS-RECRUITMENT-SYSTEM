@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#5e5ce6" />
+  <title>Student Hub | CampusRecruit</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="dashboard-body">
+  <div class="dashboard">
+    <aside class="sidebar">
+      <div class="sidebar-panel glass">
+        <div class="sidebar-brand">
+          <div class="siri-orb sm"></div>
+          <div>
+            <strong>CampusRecruit</strong>
+            <small id="user-role-label">Student Hub</small>
+          </div>
+        </div>
+        <nav class="sidebar-nav">
+          <a href="student.html" data-page="overview">✦ Overview</a>
+          <a href="#drives" data-page="drives">◈ Internships</a>
+          <a href="#applications" data-page="applications">◎ Applications</a>
+        </nav>
+        <div class="sidebar-user">
+          <div class="user-chip">
+            <div class="user-avatar" id="user-initials">PS</div>
+            <div>
+              <strong id="user-name">—</strong>
+              <small id="user-email">—</small>
+            </div>
+          </div>
+          <button type="button" class="btn btn-ghost btn-block" id="logout-btn">Sign out</button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="dashboard-main">
+      <div id="unauthorized-banner" class="hidden" style="padding:1rem 1.5rem">
+        <div class="alert alert-warning glass">Access restricted — redirected to your dashboard.</div>
+      </div>
+
+      <div class="dashboard-hero glass animate-in">
+        <h1 id="greeting">Hello, Student</h1>
+        <p>Discover premium internship opportunities · Smart eligibility · One application profile</p>
+      </div>
+
+      <div class="dashboard-content">
+        <div class="stats-row" id="stats-grid"></div>
+
+        <section id="drives">
+          <div class="section-head section-header-row" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem">
+            <div>
+              <h2>Internship Opportunities</h2>
+              <p id="drives-count">Loading drives from top companies…</p>
+            </div>
+          </div>
+          <div class="filters-bar" id="filters-bar"></div>
+          <div id="drives-grid" class="cards-grid"></div>
+          <div id="drives-empty" class="empty-state glass hidden">
+            <div class="empty-icon">◈</div>
+            <h3>No drives match your filter</h3>
+            <p>Try another category or check back soon.</p>
+          </div>
+        </section>
+
+        <section id="applications" style="margin-top:3rem">
+          <div class="section-head">
+            <h2>My Applications</h2>
+            <p>Track every stage of your internship pipeline</p>
+          </div>
+          <div id="applications-list"></div>
+          <div id="applications-empty" class="empty-state glass hidden">
+            <div class="empty-icon">◎</div>
+            <h3>No applications yet</h3>
+            <p>Complete the internship form on any drive to get started.</p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- Internship application wizard -->
+  <div class="modal-overlay" id="apply-modal">
+    <div class="modal-panel wide glass">
+      <div class="modal-header">
+        <h2 id="apply-modal-title">Internship Application</h2>
+        <p id="apply-modal-desc">Complete all sections for a professional application</p>
+        <button type="button" class="modal-close" data-close-modal aria-label="Close">×</button>
+      </div>
+      <div class="wizard-steps-label" id="wizard-labels"></div>
+      <div class="wizard-progress" id="wizard-bars"></div>
+      <div class="modal-body">
+        <div id="apply-alert"></div>
+        <input type="hidden" id="apply-job-id" />
+
+        <div id="apply-panel-0">
+          <div class="form-section-title">Personal information</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="f-phone">Phone <span class="required">*</span></label>
+              <input type="tel" id="f-phone" placeholder="+91 98765 43210" required />
+            </div>
+            <div class="form-group">
+              <label for="f-dob">Date of birth</label>
+              <input type="date" id="f-dob" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="f-city">Current city <span class="required">*</span></label>
+              <input type="text" id="f-city" placeholder="Bangalore" required />
+            </div>
+            <div class="form-group">
+              <label for="f-linkedin">LinkedIn / Portfolio URL</label>
+              <input type="url" id="f-linkedin" placeholder="https://linkedin.com/in/you" />
+            </div>
+          </div>
+        </div>
+
+        <div id="apply-panel-1" class="hidden">
+          <div class="form-section-title">Academic profile</div>
+          <div class="form-group">
+            <label for="f-university">University / College <span class="required">*</span></label>
+            <input type="text" id="f-university" placeholder="RV College of Engineering" required />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="f-year">Year of study</label>
+              <select id="f-year">
+                <option>2nd Year</option>
+                <option>3rd Year</option>
+                <option selected>4th Year</option>
+                <option>PG / Masters</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="f-semester">Semester</label>
+              <input type="text" id="f-semester" placeholder="8" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="f-branch">Branch <span class="required">*</span></label>
+              <input type="text" id="f-branch" placeholder="CSE" required />
+            </div>
+            <div class="form-group">
+              <label for="f-cgpa">CGPA <span class="required">*</span></label>
+              <input type="number" id="f-cgpa" step="0.01" min="0" max="10" required />
+            </div>
+            <div class="form-group">
+              <label for="f-backlogs">Active backlogs</label>
+              <input type="number" id="f-backlogs" min="0" value="0" />
+            </div>
+          </div>
+        </div>
+
+        <div id="apply-panel-2" class="hidden">
+          <div class="form-section-title">Skills & experience</div>
+          <div class="form-group">
+            <label for="f-technical">Technical skills <span class="required">*</span></label>
+            <textarea id="f-technical" placeholder="JavaScript, React, Python, SQL, DSA…" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="f-tools">Tools & platforms</label>
+            <input type="text" id="f-tools" placeholder="Git, Docker, AWS, Figma" />
+          </div>
+          <div class="form-group">
+            <label for="f-certifications">Certifications</label>
+            <input type="text" id="f-certifications" placeholder="AWS CP, Google Data Analytics" />
+          </div>
+          <div class="form-group">
+            <label for="f-projects">Key projects <span class="required">*</span></label>
+            <textarea id="f-projects" placeholder="Describe 2–3 projects with tech stack and impact" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="f-prior-internships">Prior internships / work</label>
+            <textarea id="f-prior-internships" placeholder="Company, role, duration, learnings"></textarea>
+          </div>
+        </div>
+
+        <div id="apply-panel-3" class="hidden">
+          <div class="form-section-title">Internship preferences</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="f-pref-duration">Preferred duration</label>
+              <select id="f-pref-duration">
+                <option>8 weeks</option>
+                <option>10 weeks</option>
+                <option selected>6 months</option>
+                <option>12 months</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="f-pref-mode">Work mode</label>
+              <select id="f-pref-mode">
+                <option value="onsite">On-site</option>
+                <option value="hybrid" selected>Hybrid</option>
+                <option value="remote">Remote</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="f-pref-location">Preferred location</label>
+              <input type="text" id="f-pref-location" placeholder="Bangalore" />
+            </div>
+            <div class="form-group">
+              <label for="f-stipend">Expected stipend (₹/month)</label>
+              <input type="text" id="f-stipend" placeholder="45000" />
+            </div>
+            <div class="form-group">
+              <label for="f-join-date">Earliest join date</label>
+              <input type="date" id="f-join-date" />
+            </div>
+          </div>
+        </div>
+
+        <div id="apply-panel-4" class="hidden">
+          <div class="form-section-title">Documents & statement</div>
+          <div class="form-group">
+            <label for="f-resume">Resume URL (Google Drive / PDF) <span class="required">*</span></label>
+            <input type="url" id="f-resume" placeholder="https://drive.google.com/..." required />
+          </div>
+          <div class="form-group">
+            <label for="f-portfolio">GitHub / Portfolio URL</label>
+            <input type="url" id="f-portfolio" placeholder="https://github.com/username" />
+          </div>
+          <div class="form-group">
+            <label for="f-why-company">Why do you want to join this company? <span class="required">*</span></label>
+            <textarea id="f-why-company" rows="4" placeholder="Min. 50 characters — show you've researched the role and company" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="f-career-goals">Career goals after this internship</label>
+            <textarea id="f-career-goals" rows="3" placeholder="Full-time conversion, specialization, etc."></textarea>
+          </div>
+          <div class="form-group">
+            <label for="f-cover-letter">Additional notes</label>
+            <textarea id="f-cover-letter" rows="2" placeholder="Availability for assessments, relocation, etc."></textarea>
+          </div>
+        </div>
+
+        <div id="apply-panel-5" class="hidden">
+          <div class="form-section-title">Review & submit</div>
+          <div id="apply-review" class="glass" style="padding:1.25rem;border-radius:var(--radius-sm)"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-glass hidden" id="apply-back-btn">← Back</button>
+        <span></span>
+        <button type="button" class="btn btn-primary" id="apply-next-btn">Continue →</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/eligibility.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/application-form.js"></script>
+  <script src="js/student.js"></script>
+</body>
+</html>

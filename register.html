@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register | CampusRecruit</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="mesh-bg auth-page">
+  <div class="auth-card wide glass animate-in">
+    <div class="auth-header">
+      <div class="siri-orb sm"></div>
+      <h1>Create account</h1>
+      <p>Join the premium campus placement platform</p>
+    </div>
+
+    <div id="register-alert"></div>
+
+    <form id="register-form">
+      <input type="hidden" id="user_role" value="student" />
+
+      <div class="form-group">
+        <label>I am a</label>
+        <div class="role-grid">
+          <button type="button" class="role-card selected" data-role="student">
+            <strong>Student</strong>
+            <span style="font-size:0.75rem;color:var(--ink-soft)">Apply to internships</span>
+          </button>
+          <button type="button" class="role-card" data-role="company">
+            <strong>Company</strong>
+            <span style="font-size:0.75rem;color:var(--ink-soft)">Hire campus talent</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="full_name">Full name</label>
+        <input type="text" id="full_name" required />
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" required minlength="6" />
+      </div>
+
+      <div id="academic-fields" class="glass" style="padding:1rem;border-radius:var(--radius-sm);margin-bottom:1.25rem">
+        <p style="font-size:0.875rem;font-weight:600;margin-bottom:1rem">Academic profile</p>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="branch">Branch</label>
+            <input type="text" id="branch" placeholder="CSE" />
+          </div>
+          <div class="form-group">
+            <label for="cgpa">CGPA</label>
+            <input type="number" id="cgpa" step="0.01" min="0" max="10" />
+          </div>
+          <div class="form-group">
+            <label for="backlogs">Backlogs</label>
+            <input type="number" id="backlogs" min="0" value="0" />
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block">Create account</button>
+    </form>
+
+    <p class="text-center text-muted mt-4">
+      <a href="login.html">Sign in</a> · <a href="index.html">Home</a>
+    </p>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+    seedDemoData();
+    redirectIfLoggedIn();
+    let selectedRole = "student";
+
+    document.querySelectorAll(".role-card").forEach(function (card) {
+      card.addEventListener("click", function () {
+        selectedRole = card.dataset.role;
+        document.getElementById("user_role").value = selectedRole;
+        document.querySelectorAll(".role-card").forEach(function (c) {
+          c.classList.remove("selected");
+        });
+        card.classList.add("selected");
+        document.getElementById("academic-fields").classList.toggle(
+          "hidden",
+          selectedRole !== "student"
+        );
+      });
+    });
+
+    document.getElementById("register-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const alertBox = document.getElementById("register-alert");
+      const result = registerUser({
+        fullName: document.getElementById("full_name").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        password: document.getElementById("password").value,
+        userRole: selectedRole,
+        branch: document.getElementById("branch").value.trim(),
+        cgpa: document.getElementById("cgpa").value,
+        backlogs: document.getElementById("backlogs").value,
+      });
+      if (result.error) {
+        showAlert(alertBox, result.error, "error");
+        return;
+      }
+      window.location.href = getDashboardPath(result.user.user_role);
+    });
+  </script>
+</body>
+</html>

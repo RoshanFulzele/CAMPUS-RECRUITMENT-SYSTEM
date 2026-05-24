@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Company Portal | CampusRecruit</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="dashboard-body">
+  <div class="dashboard">
+    <aside class="sidebar">
+      <div class="sidebar-panel glass">
+        <div class="sidebar-brand">
+          <div class="siri-orb sm" id="company-orb"></div>
+          <div>
+            <strong>CampusRecruit</strong>
+            <small id="user-role-label">Company Portal</small>
+          </div>
+        </div>
+        <nav class="sidebar-nav">
+          <a href="company.html" data-page="overview">✦ Overview</a>
+          <a href="#jobs" data-page="jobs">◈ Postings</a>
+          <a href="#applicants" data-page="applicants">◎ Applicants</a>
+        </nav>
+        <div class="sidebar-user">
+          <div class="user-chip">
+            <div class="user-avatar" id="user-initials">CO</div>
+            <div>
+              <strong id="user-name">—</strong>
+              <small id="user-email">—</small>
+            </div>
+          </div>
+          <button type="button" class="btn btn-ghost btn-block" id="logout-btn">Sign out</button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="dashboard-main">
+      <div id="unauthorized-banner" class="hidden" style="padding:1rem 1.5rem">
+        <div class="alert alert-warning glass">Access restricted.</div>
+      </div>
+
+      <div class="dashboard-hero glass animate-in">
+        <h1 id="company-title">Company Portal</h1>
+        <p>Manage internship postings and review full student applications</p>
+      </div>
+
+      <div class="dashboard-content">
+        <div class="stats-row" id="stats-grid"></div>
+
+        <section id="jobs">
+          <div class="section-header-row">
+            <div class="section-head" style="margin:0">
+              <h2>Your postings</h2>
+              <p id="jobs-summary">—</p>
+            </div>
+            <button type="button" class="btn btn-primary" id="open-job-modal">+ Post role</button>
+          </div>
+          <div id="jobs-grid" class="cards-grid"></div>
+          <div id="jobs-empty" class="empty-state glass hidden">
+            <div class="empty-icon">◈</div>
+            <h3>No postings yet</h3>
+            <p>Create your first internship or full-time role.</p>
+          </div>
+        </section>
+
+        <section id="applicants" style="margin-top:3rem">
+          <div class="section-head">
+            <h2>Applicant pipeline</h2>
+            <p>Full internship forms · Update status in one click</p>
+          </div>
+          <div id="applicants-list"></div>
+          <div id="applicants-empty" class="empty-state glass hidden">
+            <div class="empty-icon">◎</div>
+            <h3>No applicants yet</h3>
+            <p>Applications appear here with complete student profiles.</p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="job-modal">
+    <div class="modal-panel glass">
+      <div class="modal-header">
+        <h2>Post new opportunity</h2>
+        <p id="job-modal-step-desc">Step 1 — Role details</p>
+        <button type="button" class="modal-close" data-close-modal>×</button>
+      </div>
+      <div class="modal-body">
+        <div id="job-alert"></div>
+        <div id="job-step-panel-1">
+          <div class="form-group">
+            <label for="job-title">Title</label>
+            <input type="text" id="job-title" required />
+          </div>
+          <div class="form-group">
+            <label for="job-description">Description</label>
+            <textarea id="job-description" required rows="4"></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="job-type">Type</label>
+              <select id="job-type">
+                <option value="internship">Internship</option>
+                <option value="fulltime">Full-time</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="job-ctc">Package / Stipend</label>
+              <input type="text" id="job-ctc" required placeholder="₹50,000 / month" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="job-duration">Duration</label>
+              <input type="text" id="job-duration" value="6 months" />
+            </div>
+            <div class="form-group">
+              <label for="job-mode">Mode</label>
+              <select id="job-mode">
+                <option value="hybrid">Hybrid</option>
+                <option value="onsite">On-site</option>
+                <option value="remote">Remote</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="job-location">Location</label>
+              <input type="text" id="job-location" value="Bangalore" />
+            </div>
+          </div>
+        </div>
+        <div id="job-step-panel-2" class="hidden">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="job-min-cgpa">Min CGPA</label>
+              <input type="number" id="job-min-cgpa" step="0.1" value="7" />
+            </div>
+            <div class="form-group">
+              <label for="job-max-backlogs">Max backlogs</label>
+              <input type="number" id="job-max-backlogs" value="0" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="job-branches">Branches (comma or ALL)</label>
+            <input type="text" id="job-branches" placeholder="CSE, IT, ECE" />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-glass hidden" id="job-back-btn">← Back</button>
+        <span></span>
+        <button type="button" class="btn btn-primary" id="job-next-btn">Continue →</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/company.js"></script>
+</body>
+</html>
